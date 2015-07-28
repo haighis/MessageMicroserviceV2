@@ -1,0 +1,10 @@
+C:\vdev\AkkaNETGroupRouter\DataAccess\bin\Debug\EntityFramework.dll
+C:\vdev\AkkaNETGroupRouter\DataAccess\bin\Debug\EntityFramework.SqlServer.dll
+C:\vdev\AkkaNETGroupRouter\DataAccess\bin\Debug\EntityFramework.xml
+C:\vdev\AkkaNETGroupRouter\DataAccess\bin\Debug\EntityFramework.SqlServer.xml
+C:\vdev\AkkaNETGroupRouter\DataAccess\obj\Debug\DataAccess.csprojResolveAssemblyReference.cache
+C:\vdev\AkkaNETGroupRouter\DataAccess\bin\Debug\DataAccess.dll.config
+C:\vdev\AkkaNETGroupRouter\DataAccess\bin\Debug\DataAccess.dll
+C:\vdev\AkkaNETGroupRouter\DataAccess\bin\Debug\DataAccess.pdb
+C:\vdev\AkkaNETGroupRouter\DataAccess\obj\Debug\DataAccess.dll
+C:\vdev\AkkaNETGroupRouter\DataAccess\obj\Debug\DataAccess.pdb
