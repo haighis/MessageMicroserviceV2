@@ -1,3 +1,6 @@
 C:\vdev\AkkaNETGroupRouter\GroupRouterSystem\bin\Debug\GroupRouterSystem.exe.config
 C:\vdev\AkkaNETGroupRouter\GroupRouterSystem\obj\Debug\GroupRouterSystem.exe
 C:\vdev\AkkaNETGroupRouter\GroupRouterSystem\obj\Debug\GroupRouterSystem.pdb
+C:\vdev\MessageMicroserviceV2\GroupRouterSystem\bin\Debug\GroupRouterSystem.exe.config
+C:\vdev\MessageMicroserviceV2\GroupRouterSystem\obj\Debug\GroupRouterSystem.exe
+C:\vdev\MessageMicroserviceV2\GroupRouterSystem\obj\Debug\GroupRouterSystem.pdb
