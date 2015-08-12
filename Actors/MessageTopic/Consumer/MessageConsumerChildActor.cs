@@ -19,7 +19,7 @@ namespace Actors.MessageTopic.Consumer
             Receive<int>(msg =>
             {
                 Console.WriteLine("in consumer child before");
-                consumerService = new KafkaConsumerService<MessageDTO>("johnjohn", "messagegroup", new Uri[] { new Uri("http://logsvrdev:9092") });
+                consumerService = new KafkaConsumerService<MessageDTO>("keltonjohntest", "messagegroup", new Uri[] { new Uri("http://logsvrdev:9092") });
                 Console.WriteLine("in consumer child after");
                 var list = consumerService.Consume(); //new List<MessageDTO>();
                 
