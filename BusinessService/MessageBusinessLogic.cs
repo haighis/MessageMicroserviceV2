@@ -6,6 +6,11 @@ using Message = DataAccess.EntityModel.Message;
 
 namespace BusinessLogic
 {
+    /// <summary>
+    /// Message business logic that will send to ef code first db.
+    /// 
+    /// This business logic layer will receive a message from a Consumer Actor. 
+    /// </summary>
     public interface IMessageBusinessLogic : IDisposable
     {
         void AddTodo(string title);

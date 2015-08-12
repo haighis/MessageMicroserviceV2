@@ -1,4 +1,5 @@
-﻿using Actors.Actors.SupervisorStrategyPattern;
+﻿using Actors.MessageTopic.Consumer;
+using Actors.MessageTopic.Producer;
 using Akka.Actor;
 using Akka.Configuration;
 using Akka.Configuration.Hocon;
@@ -11,7 +12,6 @@ namespace GroupRouterSystem
 {
     internal class Program
     {
-
         private static Config _clusterConfig;
         private static IActorRef _testCoordinator;
 
@@ -22,7 +22,7 @@ namespace GroupRouterSystem
             LaunchBackend(new[] { "2551" });
             LaunchBackend(new[] { "2552" });
             LaunchBackend(new string[0]);
-
+            TestConsumer();
             string input;
 
             Console.WriteLine("Enter send to send the message bar or quit to exit.");
@@ -34,10 +34,13 @@ namespace GroupRouterSystem
                 {
                     case "quit":
                         return; // Stop the run thread
+                    //case "consumer":
+                    //    // Send to backend which will write to the console
+                    //    TestConsumer();
+                        break;
                     case "send":
                         // Send to backend which will write to the console
                         SendToBackend();
-
                         break;
                 }
             }
@@ -60,6 +63,19 @@ namespace GroupRouterSystem
             }
         }
 
+        private static ActorSystem consumerActorSystem; 
+
+        public static void TestConsumer()
+        {
+            //Console.WriteLine("In test consumer ");
+            consumerActorSystem = ActorSystem.Create("GroupRouterSystem");
+            var consumerActorCoordinator = consumerActorSystem.ActorOf<MessageConsumerCoordinatorActor>("MessageConsumer");
+
+            consumerActorSystem.Scheduler.Schedule(TimeSpan.FromSeconds(0),
+                         TimeSpan.FromSeconds(60),
+                         consumerActorCoordinator, 1);
+        }
+
         private static void LaunchBackend(string[] args)
         {
             var port = args.Length > 0 ? args[0] : "0";
@@ -69,7 +85,7 @@ namespace GroupRouterSystem
             var system = ActorSystem.Create("GroupRouterSystem", config);
 
             // Create Coordinator Actor that will supervise risky child (Character Actor) actor's
-            var actor = system.ActorOf(Props.Create(() => new CoordinatorActor()), "testcoordinator");
+            var actor = system.ActorOf(Props.Create(() => new MessageProducerCoordinatorActor()), "testcoordinator");
 
             //// Send some messages to get gossip going
             actor.Tell(new Message("test", Guid.NewGuid()));
@@ -79,18 +95,10 @@ namespace GroupRouterSystem
 
             if (_testCoordinator == null)
             {
-                var workers = new[] { "/user/testcoordinator" };
-                // WORKING config from code
-                // WORKING _testCoordinator = system.ActorOf(Props.Empty.WithRouter(new RandomGroup(workers)), "test-group");
-
                 // hocon config
                 _testCoordinator = system.ActorOf(Props.Empty.WithRouter(FromConfig.Instance), "test-group");
                 
                 Console.WriteLine("path " + _testCoordinator.Path);
-                // Method #1 As found on http://getakka.net/docs/working-with-actors/Routers in ConsistentHashingGroup section of this page
-                //   _testCoordinator = system.ActorOf(Props.Create(() => new CoordinatorActor()).WithRouter(FromConfig.Instance), "testcoordinator");
-                //_testCoordinator = system.ActorOf(Props.Empty.WithRouter(FromConfig.Instance), "testgroup");
-                //_testCoordinator = system.ActorOf(Props.Empty.WithRouter(new RandomGroup("/user/testcoordinator")), "testcoordinator");
             }
 
             actor.Tell(new Message("warmup the system and get some gossip going 1", Guid.NewGuid()));
@@ -100,22 +108,3 @@ namespace GroupRouterSystem
         }
     }
 }
-
-
-// var props = Props.Create<CoordinatorActor>().WithRouter(FromConfig.Instance);
-// _testCoordinator = system.ActorOf(props, "todocoordinator");
-
-//_testCoordinator = system.ActorOf(Props.Empty.WithRouter(new ConsistentHashingGroup("/user/testcoordinator")), "testcoordinator");
-
-//_testCoordinator = system.ActorOf(Props.Create(() => new CoordinatorActor()).WithRouter(FromConfig.Instance), "testcoordinator");
-
-//Console.WriteLine("path " + _testCoordinator.Path);
-
-// Configure in code without hocon
-//if (_testCoordinator == null)
-//{
-//    _testCoordinator = system.ActorOf(Props.Create(() => new CoordinatorActor()).WithRouter(
-//    new ClusterRouterGroup(new ConsistentHashingGroup("/user/testcoordinator"),
-//            new ClusterRouterGroupSettings(10, true, "program", ImmutableHashSet.Create("/user/testcoordinator"))
-//                                )), "testcoordinator");
-//}

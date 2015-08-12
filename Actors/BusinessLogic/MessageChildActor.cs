@@ -3,26 +3,26 @@ using Akka.Actor;
 using BusinessLogic;
 using DataModel;
 
-namespace Actors.Actors.SupervisorStrategyPattern
+namespace Actors.BusinessLogic
 {
     /// <summary>
     /// Child Actor for taking on dangerous task of inserting to a database.
     /// </summary>
-    public class ChildActor : ReceiveActor
+    public class MessageChildActor : ReceiveActor
     {
         private IMessageBusinessLogic messageBusinessLogic;
 
-        public ChildActor()
+        public MessageChildActor()
         {
             Receive<Message>(msg =>
             {
+                Console.WriteLine("this is being inserted to the database beofre " + Self.Path);
                 messageBusinessLogic = new MessageBusinessLogic();
 
                 messageBusinessLogic.AddTodo(msg.Data);
 
-                Console.WriteLine("Child Actr path " + Self.Path);
+                Console.WriteLine("this is being inserted to the database " + Self.Path);
                 Console.WriteLine(msg.Data);
-                // INSERT TO A DATABASE OR SEND AN EMAIL
             });  
         }
 
