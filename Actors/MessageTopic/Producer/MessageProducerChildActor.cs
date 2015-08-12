@@ -17,7 +17,7 @@ namespace Actors.MessageTopic.Producer
             Receive<Message>(msg =>
             {
                 Console.WriteLine("before Producer ");
-                producerService = new KakfaProducerService<MessageDTO>("johnjohn", new Uri[] { new Uri("http://logsvrdev:9092"), });
+                producerService = new KakfaProducerService<MessageDTO>("keltonjohntest", new Uri[] { new Uri("http://logsvrdev:9092"), });
                 producerService.Send(new MessageDTO(msg.Data));
                 Console.WriteLine("Producer Send Child Actr path " + Self.Path + " message from frontend sent to kafka" + msg.Data);
                 Console.WriteLine(msg.Data);

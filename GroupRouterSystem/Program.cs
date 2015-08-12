@@ -67,7 +67,6 @@ namespace GroupRouterSystem
 
         public static void TestConsumer()
         {
-            //Console.WriteLine("In test consumer ");
             consumerActorSystem = ActorSystem.Create("GroupRouterSystem");
             var consumerActorCoordinator = consumerActorSystem.ActorOf<MessageConsumerCoordinatorActor>("MessageConsumer");
 
@@ -88,10 +87,10 @@ namespace GroupRouterSystem
             var actor = system.ActorOf(Props.Create(() => new MessageProducerCoordinatorActor()), "testcoordinator");
 
             //// Send some messages to get gossip going
-            actor.Tell(new Message("test", Guid.NewGuid()));
-            actor.Tell(new Message("test", Guid.NewGuid()));
-            actor.Tell(new Message("test", Guid.NewGuid()));
-            actor.Tell(new Message("test", Guid.NewGuid()));
+            //actor.Tell(new Message("test", Guid.NewGuid()));
+            //actor.Tell(new Message("test", Guid.NewGuid()));
+            //actor.Tell(new Message("test", Guid.NewGuid()));
+            //actor.Tell(new Message("test", Guid.NewGuid()));
 
             if (_testCoordinator == null)
             {
@@ -101,10 +100,10 @@ namespace GroupRouterSystem
                 Console.WriteLine("path " + _testCoordinator.Path);
             }
 
-            actor.Tell(new Message("warmup the system and get some gossip going 1", Guid.NewGuid()));
-            actor.Tell(new Message("warmup the system and get some gossip going 1", Guid.NewGuid()));
-            actor.Tell(new Message("warmup the system and get some gossip going 1", Guid.NewGuid()));
-            actor.Tell(new Message("warmup the system and get some gossip going 1", Guid.NewGuid()));
+            //actor.Tell(new Message("warmup the system and get some gossip going 1", Guid.NewGuid()));
+            //actor.Tell(new Message("warmup the system and get some gossip going 1", Guid.NewGuid()));
+            //actor.Tell(new Message("warmup the system and get some gossip going 1", Guid.NewGuid()));
+            //actor.Tell(new Message("warmup the system and get some gossip going 1", Guid.NewGuid()));
         }
     }
 }

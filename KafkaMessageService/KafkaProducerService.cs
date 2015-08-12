@@ -116,6 +116,7 @@ namespace KafkaMessageService
             return list;
         }
     }
+    
     public class KakfaProducerService<T> where T : class
     {
         private readonly string _topic;
@@ -163,11 +164,12 @@ namespace KafkaMessageService
                 PartitionId = p.PartitionId
             })).Select(o => new OffsetPosition { Offset = o.Offset + 1, PartitionId = o.PartitionId }).ToArray();
 
-            //var list = StartConsumer(offsetPositions);
             _consumer = new Consumer(new ConsumerOptions(_topic, _kafkaClient.BrokerRouter), offsetPositions);
             List<T> list = new List<T>();
 
             var count = 0;
+
+            //var count1 = _consumer.Consume().Count();
 
             foreach (var data in _consumer.Consume())
             {
@@ -179,12 +181,11 @@ namespace KafkaMessageService
                 var item = data.Value.ToUtf8String().FromJson<T>();
                 list.Add(item);
 
-                if (count > 2)
+                if (count > 0)
                 {
+                    OffsetCommitRequest(data.Meta.PartitionId, data.Meta.Offset);
                     break;
                 }
-                
-                OffsetCommitRequest(data.Meta.PartitionId, data.Meta.Offset);
             }
 
             return list;
